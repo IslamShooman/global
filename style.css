@@ -1,4 +1,5 @@
-.center-flex, .center-column, .justify-start-flex, .justify-end-flex, .align-start-flex, .align-end-flex{
+.center-row, .center-column, .justify-start-row, .justify-end-row, .align-start-row, .align-end-row
+{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -6,10 +7,10 @@
 }
 .center-column{flex-direction: column;}
 
-.justify-start-flex{justify-content: flex-start;}
-.justify-end-flex{justify-content: flex-end;}
-.align-start-flex{align-items: flex-start;}
-.align-end-flex{align-items: flex-end;}
+.justify-start-row{justify-content: flex-start;}
+.justify-end-row{justify-content: flex-end;}
+.align-start-row{align-items: flex-start;}
+.align-end-row{align-items: flex-end;}
 
 body, p, ul, li, input, textarea, label{
     margin: 0;
