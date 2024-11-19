@@ -1,4 +1,4 @@
-.center-flex, .center-column{
+.center-row, .center-column{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -6,8 +6,4 @@
 }
 .center-column{
     flex-direction: column;
-}
-
-.none{
-    display: none;
 }
