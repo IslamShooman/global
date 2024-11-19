@@ -1,0 +1,10 @@
+.center-flex, .center-column{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px 10px;
+}
+.center-column{
+    flex-direction: column;
+}
+
