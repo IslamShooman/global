@@ -1,0 +1,114 @@
+
+    <section class="container my-3">
+        <ul class="row justify-content-center">
+            <li class="col-6 col-md-3 p-2 list-group-item border-0">
+                <div class="shadow py-3 d-flex justify-content-center flex-column align-items-center">
+                    <h2 class="text-center fw-bold text-success my-1" data-progress-count="33333" data-time="2000">0</h2>
+                    <p class="fw-bold bg-light px-2 py-1 rounded d-inline-flex align-items-center gap-2">
+                        <i class="fa-solid fa-book-open text-success"></i>
+                        <span>words count</span>
+                    </p>
+                </div>
+            </li>
+            <li class="col-6 col-md-3 p-2 list-group-item border-0">
+                <div class="shadow p-2 py-3 d-flex justify-content-center flex-column align-items-center">
+                    <h2 class="text-center fw-bold text-success my-1" data-progress-count="200000" data-time="2000">0</h2>
+                    <p class="fw-bold bg-light px-2 py-1 rounded d-inline-flex align-items-center gap-2">
+                        <i class="fa-solid fa-users text-success"></i>
+                        <span>عدد الطلاب</span>
+                    </p>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <style>
+        [data-progress-count]{
+            font-size: 28px;
+            position: relative;
+        }
+        [data-progress-count].increasing{
+            color: blue !important;
+        }
+        [data-progress-count].finished:before{
+            content: "";
+            background-color: green;
+            width: 100%;
+            height: 100%;
+            /*aspect-ratio: 1/1;*/
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            transition: all 500ms ease;
+            opacity: 0;
+            border-radius: 5px ;
+            /*border-radius: 50% ;*/
+            top: 50%;
+            left: 50%;
+            translate: -50% -50%;
+            animation: animate 1s 1 ease-out;
+        }
+        @keyframes animate{
+            0%{
+                transform: scale(0.9);
+                opacity: 0.8;
+            }
+            100%{
+                transform: scale(1.1);
+                opacity: 0;
+                background-color: #00f900;
+            }
+        }
+    </style>
+    <script>
+function autoProgressCount(onIncrease =()=>{}, onFinish =()=>{}){
+            const elements = document.querySelectorAll("[data-progress-count]")
+            const minChunkTime = 20
+            elements.forEach(elm=>{
+                function inc(){
+                    elm.classList.add("increasing")
+                    elm.classList.remove("finished")
+                    let prc
+                    let counter = 0;
+                    let amount = +elm.getAttribute("data-progress-count")
+                    let time = +elm.getAttribute("data-time")
+                    let chunkAmount = 1
+                    let chunkTime;
+
+                    if(time){
+                        chunkTime = (chunkAmount * time) / amount
+                        if(chunkTime < minChunkTime){
+
+                            chunkTime = minChunkTime
+                            chunkAmount = (amount * chunkTime) / time
+                            chunkAmount = Math.round(chunkAmount)
+                        }
+                    }
+
+
+                    let increase = ()=>{
+                        counter += chunkAmount
+                        if(counter >= amount){
+                            elm.innerText = amount
+                            clearInterval(intervalID)
+                            elm.classList.remove("increasing")
+                            elm.classList.add("finished")
+                            onFinish()
+                            return
+                        }
+                        elm.innerText = counter
+                        prc = counter / amount * 100
+                        onIncrease(elm, prc)
+                    }
+                    let intervalID = setInterval(increase, chunkTime)
+                }
+                inc()
+                elm.onclick = inc
+            })
+        }
+        autoProgressCount()
+
+
+
+    </script>
